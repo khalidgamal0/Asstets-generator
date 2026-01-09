@@ -3,7 +3,6 @@ import 'package:path/path.dart' as p;
 import 'package:watcher/watcher.dart';
 
 import '../utils/generate_constants.dart';
-
 /// Run:
 /// dart run generate/assets/main.dart
 ///
