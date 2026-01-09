@@ -189,7 +189,33 @@ List<File> _listFilesRecursively(String rootPath) {
   return files;
 }
 
+/// ---------------------------------------------------------------------------
+/// FILE NAME TO CAMEL CASE (SAFE FOR DART IDENTIFIERS)
+/// ---------------------------------------------------------------------------
 String _fileNameToCamelCase(String name) {
   if (name.isEmpty) return name;
-  return name[0].toLowerCase() + name.substring(1);
+
+  // replace invalid characters (-, space) with underscore
+  name = name.replaceAll(RegExp(r'[-\s]'), '_');
+
+  // split by underscore
+  final parts = name.split('_');
+
+  // convert to camelCase
+  final camelCase = parts.mapIndexed((index, part) {
+    if (part.isEmpty) return '';
+    return index == 0
+        ? part[0].toLowerCase() + part.substring(1)
+        : part[0].toUpperCase() + part.substring(1);
+  }).join();
+
+  return camelCase;
+}
+
+/// Extension for mapIndexed (helper)
+extension IterableExtensions<E> on Iterable<E> {
+  Iterable<T> mapIndexed<T>(T Function(int index, E item) f) {
+    var i = 0;
+    return map((e) => f(i++, e));
+  }
 }
